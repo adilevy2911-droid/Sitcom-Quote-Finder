@@ -4,11 +4,32 @@ An end-to-end, high-performance web platform that interfaces a **Python (Flask)*
 
 ---
 
-## Dashboard Preview
+## Dashboard & Features Preview
 
-<img width="508" height="407" alt="dashboard" src="https://github.com/user-attachments/assets/7886b2e9-9e73-48ce-82e8-cb726c2ed47c" />
-<img width="491" height="384" alt="search" src="https://github.com/user-attachments/assets/faad6e87-62d7-4965-a9dd-7ffbed75063d" />
-<img width="800" height="420" alt="yt" src="https://github.com/user-attachments/assets/55cd14b9-8fa0-4b49-9e49-f0e34a391e2c" />
+<p align="center">
+  <h3>1. Main Interface & Catalog</h3>
+  <img src="https://github.com/user-attachments/assets/7886b2e9-9e73-48ce-82e8-cb726c2ed47c" width="600" alt="Main Interface" />
+  <br>
+  <sub><em>Main UI displaying quotes categorized by sitcoms with dynamic filtering options.</em></sub>
+</p>
+
+<hr>
+
+<p align="center">
+  <h3>2. Fuzzy Search & Real-Time Telemetry HUD</h3>
+  <img src="https://github.com/user-attachments/assets/faad6e87-62d7-4965-a9dd-7ffbed75063d" width="600" alt="Fuzzy Search" />
+  <br>
+  <sub><em>C-powered Levenshtein distance engine handling typos with live performance telemetry.</em></sub>
+</p>
+
+<hr>
+
+<p align="center">
+  <h3>3. Direct YouTube Scene Integration</h3>
+  <img src="https://github.com/user-attachments/assets/55cd14b9-8fa0-4b49-9e49-f0e34a391e2c" width="600" alt="YouTube Integration" />
+  <br>
+  <sub><em>One-click button redirecting directly to the specific sitcom scene query on YouTube.</em></sub>
+</p>
 ---
 
 ## Project Architecture & Features
