@@ -1,0 +1,112 @@
+import csv
+import os
+
+def main():
+    quotes = [
+        # === FRIENDS (16) ===
+        ["Friends", 5, 16, "Ross Geller", "Rachel Green", "Trying to carry a couch up the stairs", "Pivot! Pivot! Pivot!"],
+        ["Friends", 3, 16, "Ross Geller", "Rachel Green", "During a massive fight about sleeping with the copy-place girl", "We were on a break!"],
+        ["Friends", 4, 13, "Joey Tribbiani", "Rachel Green", "Joey using his signature catchphrase to flirt", "How you doin'?"],
+        ["Friends", 2, 6, "Phoebe Buffay", "Audience", "Phoebe singing her signature song at Central Perk", "Smelly cat, smelly cat, what are they feeding you?"],
+        ["Friends", 3, 2, "Chandler Bing", "Joey Tribbiani", "Chandler puts on all of Joey's clothes to get back at him", "Could I BE wearing any more clothes?"],
+        ["Friends", 2, 14, "Phoebe Buffay", "Ross Geller", "Phoebe explains that lobsters fall in love and mate for life", "See? He's her lobster."],
+        ["Friends", 10, 17, "Rachel Green", "Ross Geller", "Rachel comes back to Ross instead of flying to Paris", "I got off the plane."],
+        ["Friends", 1, 1, "Monica Geller", "Rachel Green", "Monica welcomes Rachel to independent life after cutting her credit cards", "Welcome to the real world! It sucks. You're gonna love it."],
+        ["Friends", 10, 9, "Joey Tribbiani", "Sarah", "Joey gets upset when his date tries to take fries from his plate", "Joey doesn't share food!"],
+        ["Friends", 5, 14, "Phoebe Buffay", "Rachel Green", "Phoebe and Rachel try to mess with Monica and Chandler about their relationship", "They don't know that we know they know we know."],
+        ["Friends", 4, 11, "Monica Geller", "Chandler Bing", "Monica drawing a diagram of a woman's erogenous zones", "Seven! Seven! Seven!"],
+        ["Friends", 6, 17, "Ross Geller", "Rachel Green", "Ross tries to teach Rachel and Phoebe about self-defense", "Unagi is a state of total awareness."],
+        ["Friends", 5, 14, "Phoebe Buffay", "Rachel Green", "Phoebe sees Monica and Chandler having sex through Ross's window", "My eyes! My eyes!"],
+        ["Friends", 7, 10, "Ross Geller", "Ben Geller", "Ross dresses up as a weird character to teach Ben about Hanukkah", "I'm the Holiday Armadillo!"],
+        ["Friends", 10, 17, "Phoebe Buffay", "Airport Employee", "Phoebe using her favorite fake alias to call the airport", "Regina Phalange."],
+        ["Friends", 1, 5, "Janice Litman", "Chandler Bing", "Janice's classic nasally exclamation of surprise", "Oh. My. God."],
+
+        # === HOW I MET YOUR MOTHER (16) ===
+        ["How I Met Your Mother", 1, 1, "Barney Stinson", "Ted Mosby", "Barney's primary life instruction to Ted", "Suit up!"],
+        ["How I Met Your Mother", 1, 1, "Barney Stinson", "Ted Mosby", "Barney describing an upcoming night out", "It's gonna be legendary!"],
+        ["How I Met Your Mother", 2, 2, "Barney Stinson", "Ted Mosby", "Barney takes on a ridiculous bet or task", "Challenge accepted!"],
+        ["How I Met Your Mother", 1, 1, "Barney Stinson", "Robin Scherbatsky", "Barney's classic wingman introduction technique", "Have you met Ted?"],
+        ["How I Met Your Mother", 1, 18, "Ted Mosby", "Kids", "Ted explaining his mother's golden rule of life", "Nothing good happens after 2 AM."],
+        ["How I Met Your Mother", 2, 9, "Robin Sparkles", "Audience", "Robin's secret teenage Canadian pop-star hit song", "Let's go to the Mall, today!"],
+        ["How I Met Your Mother", 2, 9, "Barney Stinson", "Marshall Eriksen", "The creation of the infamous slap bet", "A slap bet? Excellent!"],
+        ["How I Met Your Mother", 9, 24, "Ted Mosby", "Tracy McConnell", "Ted reflecting on meeting Tracy under the yellow umbrella", "Funny how sometimes you find things and you're not even looking for them."],
+        ["How I Met Your Mother", 5, 8, "Barney Stinson", "Lily Aldrin", "Barney defending his legendary book of pick-up strategies", "The Playbook is for classy gentlemen."],
+        ["How I Met Your Mother", 4, 4, "Marshall Eriksen", "Ted Mosby", "The gang gathers to hold one of their many interventions", "We need an intervention."],
+        ["How I Met Your Mother", 5, 13, "Robin Scherbatsky", "Viewers", "Robin's nervous drinking game trigger on her morning show", "But, um! But, um!"],
+        ["How I Met Your Mother", 9, 1, "Lily Aldrin", "Linus", "Lily constantly getting drinks delivered during the wedding weekend", "Thank you, Linus."],
+        ["How I Met Your Mother", 6, 4, "Ted Mosby", "Marshall Eriksen", "Saluting whenever someone says a military-sounding phrase", "Major Pleasure. Major Pleasure!"],
+        ["How I Met Your Mother", 1, 10, "Ted Mosby", "Gang", "Ted waking up with a mysterious pineapple on his nightstand", "I dibs the pineapple!"],
+        ["How I Met Your Mother", 3, 3, "Barney Stinson", "Ted Mosby", "Barney trying to claim a girl before anyone else", "Dibs! I said dibs!"],
+        ["How I Met Your Mother", 9, 15, "Marshall Eriksen", "Lily Aldrin", "Marshall asking Lily to resume their argument after a break", "Please, just unpause."],
+
+        # === BROOKLYN NINE-NINE (16) ===
+        ["Brooklyn Nine-Nine", 1, 1, "Jake Peralta", "Captain Holt", "Jake's classic nervous confirmation response", "Cool, cool, cool, cool, cool. No doubt, no doubt."],
+        ["Brooklyn Nine-Nine", 1, 1, "Terry Jeffords", "Squad", "Terry leading the precinct's motivating battle cry", "Nine-Nine!"],
+        ["Brooklyn Nine-Nine", 2, 4, "Jake Peralta", "Amy Santiago", "Jake using his favorite slang to praise Amy", "Noice, smort."],
+        ["Brooklyn Nine-Nine", 1, 5, "Jake Peralta", "Amy Santiago", "Jake's signature comeback to anything Amy says", "Title of your sex tape."],
+        ["Brooklyn Nine-Nine", 2, 1, "Terry Jeffords", "Jake Peralta", "Terry expressing his deep and absolute love for yogurt", "Terry loves yogurt!"],
+        ["Brooklyn Nine-Nine", 3, 4, "Captain Holt", "Jake Peralta", "Captain Holt celebrating a rare witty insult against Wuntch", "Wuntch time is over! Boom, did it!"],
+        ["Brooklyn Nine-Nine", 5, 14, "Jake Peralta", "Suspects", "Jake makes a lineup of suspects sing the Backstreet Boys", "Tell me why! Ain't nothin' but a heartache..."],
+        ["Brooklyn Nine-Nine", 3, 22, "Captain Holt", "Jake Peralta", "Holt announcing his awesome helicopter callsign", "Velvet Thunder!"],
+        ["Brooklyn Nine-Nine", 2, 12, "Captain Holt", "Jake Peralta", "Holt combines bingo and jackpot into his own victory word", "Bingpot!"],
+        ["Brooklyn Nine-Nine", 5, 14, "Jake Peralta", "Amy Santiago", "Jake reacting to the suspect singing Backstreet Boys beautifully", "Chills, literal chills."],
+        ["Brooklyn Nine-Nine", 2, 6, "Captain Holt", "Squad", "Holt reacting to guessing why Amy was late to work", "Hot damn!"],
+        ["Brooklyn Nine-Nine", 4, 8, "Captain Holt", "Squad", "Holt shouting triumphantly about balloon arches", "VINDICATION!"],
+        ["Brooklyn Nine-Nine", 1, 11, "Captain Holt", "Jake Peralta", "Holt playing along with Jake's joke about him being a robot", "I am a detective. I will meep morp."],
+        ["Brooklyn Nine-Nine", 4, 8, "Captain Holt", "Rosa Diaz", "Holt getting extremely offended by Rosa's suggestion to have sex", "BONE?! How dare you, Detective Diaz!"],
+        ["Brooklyn Nine-Nine", 1, 19, "Captain Holt", "Terry Jeffords", "Holt trying to hide his obsession with a mobile game", "Kwazy Cupcakes is a highly addictive game."],
+        ["Brooklyn Nine-Nine", 2, 23, "Captain Holt", "Amy Santiago", "Holt giving Amy a rare, heartfelt compliment as he leaves", "If I had a muse, it would be you, Santiago."],
+
+        # === GILMORE GIRLS (16) ===
+        ["Gilmore Girls", 1, 1, "Lorelai Gilmore", "Rory Gilmore", "Lorelai expressing her extreme caffeine addiction", "I need coffee in an IV."],
+        ["Gilmore Girls", 2, 21, "Lorelai Gilmore", "Rory Gilmore", "Lorelai combining two funny words to create the perfect catchphrase", "Oy with the poodles already!"],
+        ["Gilmore Girls", 4, 2, "Lorelai Gilmore", "Rory Gilmore", "Lorelai's nonsense phrase to get Rory to pack faster", "Copper boom!"],
+        ["Gilmore Girls", 5, 7, "Rory Gilmore", "Logan Huntzberger", "The motto of the Life and Death Brigade, meaning ready for all things", "In omnia paratus."],
+        ["Gilmore Girls", 5, 7, "Lorelai Gilmore", "Luke Danes", "Lorelai telling Luke how much he means to her", "You're my anchor, Luke."],
+        ["Gilmore Girls", 1, 8, "Lorelai Gilmore", "Rory Gilmore", "Lorelai's philosophy on breakfast and life", "Life's too short to not eat pancakes."],
+        ["Gilmore Girls", 1, 2, "Luke Danes", "Lorelai Gilmore", "Luke enforcing his famous diner rules", "No cell phones in the diner!"],
+        ["Gilmore Girls", 2, 3, "Rory Gilmore", "Paris Geller", "Rory standing up to Paris's aggressive personality", "People can't just bully you into doing what they want."],
+        ["Gilmore Girls", 3, 10, "Rory Gilmore", "Lorelai Gilmore", "Rory describing their quirky hometown", "Stars Hollow is a state of mind."],
+        ["Gilmore Girls", 3, 22, "Rory Gilmore", "Lorelai Gilmore", "Rory's emotional graduation speech about Lorelai", "My mother never gave me any idea that I couldn't do whatever I wanted."],
+        ["Gilmore Girls", 2, 15, "Taylor Doose", "Townsfolk", "Taylor Doose opening a Stars Hollow town assembly", "This town meeting is officially in session."],
+        ["Gilmore Girls", 4, 20, "Lorelai Gilmore", "Sookie St. James", "Lorelai celebrating the opening of her own dream inn", "Welcome to the Dragonfly Inn."],
+        ["Gilmore Girls", 5, 4, "Lorelai Gilmore", "Rory Gilmore", "Lorelai summarizing Kirk's absurd employment history", "Kirk has had seventy-four jobs."],
+        ["Gilmore Girls", 3, 5, "Luke Danes", "Taylor Doose", "Luke insulting Taylor during a heated town argument", "You look like a hockey puck."],
+        ["Gilmore Girls", 1, 1, "Emily Gilmore", "Lorelai Gilmore", "Emily establishing the terms of the financial agreement", "Friday night dinners are mandatory."],
+        ["Gilmore Girls", 4, 6, "Rory Gilmore", "Paris Geller", "Rory telling Paris about her writing milestone", "I wrote a article for the Yale Daily News."],
+
+        # === NEW GIRL (16) ===
+        ["New Girl", 1, 1, "Nick Miller", "Schmidt", "The gang enforcing Schmidt's douchebag jar fine", "Jar! You're putting money in the jar, Schmidt."],
+        ["New Girl", 2, 15, "Nick Miller", "Jess Day", "Nick's honest and hilarious declaration of self-deprecation", "I am not a successful adult. I don't eat vegetables."],
+        ["New Girl", 4, 6, "Winston Bishop", "Coach", "Winston defending his deep connection with his cat", "Furguson and I are having a beautiful moment."],
+        ["New Girl", 3, 20, "Jess Day", "Nick Miller", "Jess explaining her outlook on life and relationships", "I just want to be weird and happy."],
+        ["New Girl", 1, 24, "Schmidt", "Cece Parekh", "Schmidt declaring his love for Cece in his own unique way", "You are the one, Cece."],
+        ["New Girl", 2, 5, "Nick Miller", "Schmidt", "Nick trying to explain basic friendship exchange dynamics", "Gave me cookie, got you cookie!"],
+        ["New Girl", 3, 8, "Schmidt", "Nick Miller", "Schmidt defending his eccentric fashion choices", "I bought a pink kimono, and I'm not apologizing."],
+        ["New Girl", 3, 12, "Winston Bishop", "Furguson", "Winston describing his plans with his beloved cat", "Classic Bishop-cat mess around!"],
+        ["New Girl", 2, 18, "Schmidt", "Kids", "Schmidt yelling at kids on the street", "You're a youth! Get out of here, youths!"],
+        ["New Girl", 4, 19, "Winston Bishop", "Nick Miller", "Winston suggesting a positive version of a roast", "Let's do a honey roast!"],
+        ["New Girl", 2, 14, "Nick Miller", "Jess Day", "Nick using his classic, gruff detective alter-ego", "I am Julius Pepperwood, I'm from Chicago."],
+        ["New Girl", 1, 20, "Jess Day", "Gang", "The rules and chant of the legendary drinking game True American", "One, two, three, four, JFK, FDR!"],
+        ["New Girl", 2, 18, "Schmidt", "Nick Miller", "Schmidt getting disgusted by Nick sharing a damp bath towel", "Why are you using a damp towel?"],
+        ["New Girl", 1, 15, "Schmidt", "Cece Parekh", "Schmidt using a weird pickup line on Cece", "You're a shawty, Cece."],
+        ["New Girl", 2, 22, "Jess Day", "Winston Bishop", "Jess explaining her eccentric emotional attachment to a balloon", "I have a weird relationship with a balloon."],
+        ["New Girl", 1, 6, "Nick Miller", "Jess Day", "Nick sharing one of his strangely romantic insights", "I think a spiderweb is beautiful."]
+    ]
+
+    # Create SITCOM directory if it doesn't exist
+    os.makedirs("SITCOM", exist_ok=True)
+    csv_path = os.path.join("SITCOM", "quotes.csv")
+
+    with open(csv_path, mode="w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f, quoting=csv.QUOTE_ALL)
+        # Header line
+        writer.writerow(["Sitcom Name", "Season", "Episode", "Character Who Said It", "Character Spoken To", "Context", "Quote"])
+        # Data
+        for q in quotes:
+            writer.writerow(q)
+
+    print(f"Successfully generated {len(quotes)} balanced quotes in {csv_path}!")
+
+if __name__ == "__main__":
+    main()
